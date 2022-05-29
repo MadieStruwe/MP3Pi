@@ -1,0 +1,30 @@
+# Code from AIY projects
+#   https://aiyprojects.withgoogle.com/voice/#makers-guide--run-your-app-at-bootup
+#
+# Install:
+#    sudo ln -s `pwd`/MusicPlayer.service /lib/systemd/system
+#    sudo systemctl daemon-reload
+#
+# Start on each boot:
+#    sudo systemctl enable MusicPlayer.service
+#
+# Start right now:
+#    sudo systemctl start MusicPlayer.service
+
+[Unit]
+Description=Madie's Music Player
+Wants=network-online.target
+After=network-online.target
+Wants=systemd-timesyncd.service
+After=systemd-timesyncd.service
+
+[Service]
+Environment=DISPLAY=:0
+Type=simple
+Restart=always
+User=pi
+# File path will change based on it's location
+ExecStart=/usr/bin/python3 -u /home/pi/AIY-voice-kit-python/MusicPlayer/MusicPlayer.py --language en-US
+
+[Install]
+WantedBy=multi-user.target
